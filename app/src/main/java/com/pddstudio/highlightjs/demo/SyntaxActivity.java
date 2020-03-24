@@ -1,13 +1,14 @@
 package com.pddstudio.highlightjs.demo;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.pddstudio.highlightjs.HighlightJsView;
 import com.pddstudio.highlightjs.demo.utils.FileObject;
@@ -42,14 +43,14 @@ public class SyntaxActivity extends AppCompatActivity implements
             getSupportActionBar().setTitle(fileObject.getAbsoluteFilePath());
         }
         //set and assign swipe refresh listener
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         //find and instantiate the view
-        highlightJsView = (HighlightJsView) findViewById(R.id.highlight_view);
+        highlightJsView = findViewById(R.id.highlight_view);
         //register theme change listener
         highlightJsView.setOnThemeChangedListener(this);
         //change theme and set language to auto detect
-        highlightJsView.setTheme(Theme.ANDROID_STUDIO);
+        highlightJsView.setTheme(Theme.DOGBIN_NIGHT_THEME);
         highlightJsView.setHighlightLanguage(Language.AUTO_DETECT);
         //load the source
         highlightJsView.setSource(fileObject.getUrl());

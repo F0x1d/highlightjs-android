@@ -82,7 +82,8 @@ public enum Theme {
     VS("vs"),
     X_CODE("xcode"),
     XT256("xt256"),
-    ZENBURN("zenburn");
+    ZENBURN("zenburn"),
+    DOGBIN_NIGHT_THEME("dogbin");
 
     private final String themeName;
 

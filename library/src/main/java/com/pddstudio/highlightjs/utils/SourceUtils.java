@@ -1,7 +1,7 @@
 package com.pddstudio.highlightjs.utils;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * This Class was created by Patrick J
@@ -49,7 +49,7 @@ public class SourceUtils {
 		return "<style type=\"text/css\">\n" +
 				".hljs-line-numbers {\n" +
 				"\ttext-align: right;\n" +
-				"\tborder-right: 1px solid #ccc;\n" +
+				//"\tborder-right: 1px solid #ccc;\n" + // shitty border
 				"\tcolor: #999;\n" +
 				"\t-webkit-touch-callout: none;\n" +
 				"\t-webkit-user-select: none;\n" +

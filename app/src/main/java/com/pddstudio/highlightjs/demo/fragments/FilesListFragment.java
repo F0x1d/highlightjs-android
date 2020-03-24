@@ -2,14 +2,15 @@ package com.pddstudio.highlightjs.demo.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.pddstudio.highlightjs.demo.R;
 import com.pddstudio.highlightjs.demo.SyntaxActivity;
@@ -17,6 +18,8 @@ import com.pddstudio.highlightjs.demo.adapters.FilesAdapter;
 import com.pddstudio.highlightjs.demo.utils.FileObject;
 import com.pddstudio.highlightjs.demo.utils.RepositoryLoader;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,7 +42,7 @@ public class FilesListFragment extends Fragment implements RepositoryLoader.Call
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_file_list, container, false);
-        recyclerView = (RecyclerView) root.findViewById(R.id.files_recycler_view);
+        recyclerView = root.findViewById(R.id.files_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         filesAdapter = new FilesAdapter(new LinkedList<FileObject>(), this);
         recyclerView.setLayoutManager(layoutManager);
@@ -50,7 +53,14 @@ public class FilesListFragment extends Fragment implements RepositoryLoader.Call
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RepositoryLoader.get().loadFiles(this);
+        //RepositoryLoader.get().loadFiles(this);
+        try {
+            // Checking highlight work
+            filesAdapter.addItem(new FileObject("Testing java", new URL("https://raw.githubusercontent.com/ganyao114/SandHook/master/app/src/main/java/com/swift/sandhook/MainActivity.java")));
+            filesAdapter.addItem(new FileObject("Testing python", new URL("https://raw.githubusercontent.com/mojurasu/kantek/develop/kantek/bot.py")));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

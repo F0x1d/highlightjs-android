@@ -1,10 +1,11 @@
 package com.pddstudio.highlightjs.demo.adapters;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.pddstudio.highlightjs.demo.R;
 import com.pddstudio.highlightjs.demo.utils.FileObject;
@@ -69,8 +70,8 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
         public ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            fileName = (TextView) itemView.findViewById(R.id.file_title);
-            filePath = (TextView) itemView.findViewById(R.id.file_content);
+            fileName = itemView.findViewById(R.id.file_title);
+            filePath = itemView.findViewById(R.id.file_content);
         }
 
         @Override

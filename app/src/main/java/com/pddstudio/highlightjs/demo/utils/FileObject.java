@@ -15,7 +15,7 @@ public class FileObject implements Serializable {
     private final String name;
     private final URL url;
 
-    FileObject(String name, URL url) {
+    public FileObject(String name, URL url) {
         this.name = name;
         this.url = url;
     }
