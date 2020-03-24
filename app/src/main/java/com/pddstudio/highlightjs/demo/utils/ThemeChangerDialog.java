@@ -63,7 +63,7 @@ public class ThemeChangerDialog implements DialogInterface.OnClickListener {
 	private Theme findThemeWithMatchingName(String themeName) {
 
 		if(themeName == null || themeName.isEmpty()) {
-			return Theme.DEFAULT;
+            return Theme.GOOGLECODE;
 		}
 
 		for(Theme theme : Theme.values()) {
@@ -72,7 +72,7 @@ public class ThemeChangerDialog implements DialogInterface.OnClickListener {
 			}
 		}
 
-		return Theme.DEFAULT;
+        return Theme.GOOGLECODE;
 	}
 
 	private Theme getSelectedTheme(int selectedIndex) {

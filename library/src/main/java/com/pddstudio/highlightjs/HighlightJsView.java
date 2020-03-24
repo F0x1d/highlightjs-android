@@ -29,7 +29,7 @@ public class HighlightJsView extends WebView implements FileUtils.Callback {
 
     //local variables to store language and theme
     private Language language = Language.AUTO_DETECT;
-    private Theme theme = Theme.DEFAULT;
+    private Theme theme = Theme.GOOGLECODE;
     private String content;
 	private boolean zoomSupport = false;
     private boolean showLineNumbers = false;
@@ -133,7 +133,7 @@ public class HighlightJsView extends WebView implements FileUtils.Callback {
 
     /**
      * Set the desired theme to highlight the given source.
-     * Default: {@link Theme#DEFAULT}
+     * Default: {@link Theme#GOOGLECODE}
      * @param theme
      */
     public void setTheme(Theme theme) {
