@@ -6,6 +6,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -38,6 +39,7 @@ public class HighlightJsView extends WebView implements FileUtils.Callback {
     private OnLanguageChangedListener onLanguageChangedListener;
     private OnThemeChangedListener onThemeChangedListener;
     private OnContentChangedListener onContentChangedListener;
+    private OnContentHighlightedListener onContentHighlightedListener;
 
     @Override
     public void onDataLoaded(boolean success, String source) {
@@ -54,6 +56,21 @@ public class HighlightJsView extends WebView implements FileUtils.Callback {
 
     public interface OnContentChangedListener {
         void onContentChanged();
+    }
+
+    private void initView(Context context) {
+        //make sure the view is blank
+        loadUrl("about:blank");
+        //set the settings for the view
+        WebSettings settings = getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setSupportZoom(zoomSupport);
+        //disable zoom controls on +Honeycomb devices
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) settings.setDisplayZoomControls(false);
+        //to remove padding and margin
+        setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        addJavascriptInterface(this, "Android");
     }
 
     public HighlightJsView(Context context) {
@@ -77,18 +94,13 @@ public class HighlightJsView extends WebView implements FileUtils.Callback {
         initView(context);
     }
 
-    private void initView(Context context) {
-        //make sure the view is blank
-        loadUrl("about:blank");
-        //set the settings for the view
-        WebSettings settings = getSettings();
-        settings.setJavaScriptEnabled(true);
-        settings.setBuiltInZoomControls(true);
-        settings.setSupportZoom(zoomSupport);
-        //disable zoom controls on +Honeycomb devices
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) settings.setDisplayZoomControls(false);
-        //to remove padding and margin
-        setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+    @JavascriptInterface
+    public void highlighted() {
+        onContentHighlightedListener.onHighlighted();
+    }
+
+    public void setOnContentHighlightedListener(OnContentHighlightedListener onContentHighlightedListener) {
+        this.onContentHighlightedListener = onContentHighlightedListener;
     }
 
 	private void changeZoomSettings(boolean enable) {
@@ -118,6 +130,10 @@ public class HighlightJsView extends WebView implements FileUtils.Callback {
      */
     public void setOnContentChangedListener(OnContentChangedListener onContentChangedListener) {
         this.onContentChangedListener = onContentChangedListener;
+    }
+
+    public interface OnContentHighlightedListener {
+        void onHighlighted();
     }
 
     /**

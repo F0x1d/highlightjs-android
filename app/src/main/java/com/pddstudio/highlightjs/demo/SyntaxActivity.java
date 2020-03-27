@@ -53,6 +53,12 @@ public class SyntaxActivity extends AppCompatActivity implements
         highlightJsView.setTheme(Theme.DOGBIN_NIGHT_THEME);
         highlightJsView.setHighlightLanguage(Language.AUTO_DETECT);
         //load the source
+        highlightJsView.setOnContentHighlightedListener(new HighlightJsView.OnContentHighlightedListener() {
+            @Override
+            public void onHighlighted() {
+                Toast.makeText(getApplicationContext(), "highlighted", Toast.LENGTH_SHORT).show();
+            }
+        });
         highlightJsView.setSource(fileObject.getUrl());
     }
 
@@ -115,7 +121,7 @@ public class SyntaxActivity extends AppCompatActivity implements
     @Override
     public void onThemeChanged(@NonNull Theme theme) {
         swipeRefreshLayout.setRefreshing(false);
-        Toast.makeText(this, "Theme: " + theme.name(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Theme: " + theme.name(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
