@@ -40,10 +40,12 @@ public class HighlightJsView extends WebView implements FileUtils.Callback {
     private OnThemeChangedListener onThemeChangedListener;
     private OnContentChangedListener onContentChangedListener;
     private OnContentHighlightedListener onContentHighlightedListener;
+    private boolean mIsHighlighting = false;
+    private boolean mAcceptHighlighting = true;
 
     @Override
     public void onDataLoaded(boolean success, String source) {
-        if(success) setSource(source);
+        if (success) setSource(source);
     }
 
     public interface OnLanguageChangedListener {
@@ -96,7 +98,12 @@ public class HighlightJsView extends WebView implements FileUtils.Callback {
 
     @JavascriptInterface
     public void highlighted() {
-        onContentHighlightedListener.onHighlighted();
+        if (mAcceptHighlighting) {
+            onContentHighlightedListener.onHighlighted();
+            mIsHighlighting = false;
+        } else {
+            mAcceptHighlighting = true;
+        }
     }
 
     public void setOnContentHighlightedListener(OnContentHighlightedListener onContentHighlightedListener) {
@@ -185,7 +192,14 @@ public class HighlightJsView extends WebView implements FileUtils.Callback {
             String page = SourceUtils.generateContent(source, theme.getName(), language.getName(), zoomSupport, showLineNumbers);
             loadDataWithBaseURL("file:///android_asset/", page, "text/html", "utf-8", null);
             //notify the callback (if set)
-            if(onContentChangedListener != null) onContentChangedListener.onContentChanged();
+            if (mIsHighlighting)
+                mAcceptHighlighting = false;
+
+            if (onContentChangedListener != null)
+                onContentChangedListener.onContentChanged();
+
+            if (!mIsHighlighting)
+                mIsHighlighting = true;
         } else Log.e(getClass().getSimpleName(), "Source can't be null or empty.");
     }
 
