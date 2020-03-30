@@ -59,6 +59,7 @@ public class SyntaxActivity extends AppCompatActivity implements
                 Toast.makeText(getApplicationContext(), "highlighted", Toast.LENGTH_SHORT).show();
             }
         });
+        highlightJsView.setTextWrap(HighlightJsView.TextWrap.BREAK_ALL);
         highlightJsView.setSource(fileObject.getUrl());
     }
 

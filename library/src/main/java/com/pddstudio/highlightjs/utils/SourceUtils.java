@@ -3,6 +3,8 @@ package com.pddstudio.highlightjs.utils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.pddstudio.highlightjs.HighlightJsView;
+
 /**
  * This Class was created by Patrick J
  * on 09.06.16. For more Details and Licensing
@@ -11,8 +13,9 @@ import androidx.annotation.Nullable;
 
 public class SourceUtils {
 
-	public static String generateContent(String source, @NonNull String style, @Nullable String language, boolean supportZoom, boolean showLineNumbers) {
-		return getStylePageHeader(supportZoom) +
+    public static String generateContent(String source, @NonNull String style, @Nullable String language, boolean supportZoom, boolean showLineNumbers,
+                                         HighlightJsView.TextWrap textWrap) {
+        return getStylePageHeader(supportZoom, textWrap) +
 				getSourceForStyle(style) +
 				(showLineNumbers ? getLineNumberStyling() : "") +
 				getScriptPageHeader(showLineNumbers) +
@@ -20,7 +23,20 @@ public class SourceUtils {
 				getTemplateFooter();
 	}
 
-	private static String getStylePageHeader(boolean enableZoom) {
+    private static String getStylePageHeader(boolean enableZoom, HighlightJsView.TextWrap textWrap) {
+        String preTag = "";
+        switch (textWrap) {
+            case NO_WRAP:
+                preTag = "       pre {}\n";
+                break;
+            case WORD_WRAP:
+                preTag = "       pre {\nwhite-space: pre-wrap;\nword-wrap: break-word;\n}\n";
+                break;
+            case BREAK_ALL:
+                preTag = "       pre {\nwhite-space: pre-wrap;\nword-break: break-all;\n}\n";
+                break;
+        }
+
 		return "<!DOCTYPE html>\n" +
 				"<html>\n" +
 				"<head>\n" +
@@ -33,6 +49,7 @@ public class SourceUtils {
 				"           margin: 0px;\n" +
 				"           padding: 0px;\n" +
 				"       }\n" +
+                preTag +
 				"   </style>\n";
 	}
 
@@ -49,7 +66,6 @@ public class SourceUtils {
 		return "<style type=\"text/css\">\n" +
 				".hljs-line-numbers {\n" +
 				"\ttext-align: right;\n" +
-				//"\tborder-right: 1px solid #ccc;\n" + // shitty border
 				"\tcolor: #999;\n" +
 				"\t-webkit-touch-callout: none;\n" +
 				"\t-webkit-user-select: none;\n" +
@@ -74,7 +90,9 @@ public class SourceUtils {
 	}
 
 	private static String getSourceForLanguage(String source, String language) {
-		if (language != null) { return String.format("<pre><code class=\"%s\">%s</code></pre>\n", language, formatCode(source)); } else {
+        if (language != null) {
+            return String.format("<pre><code class=\"%s\">%s</code></pre>\n", language, formatCode(source));
+        } else {
 			return String.format("<pre><code>%s</code></pre>\n", formatCode(source));
 		}
 	}

@@ -31,6 +31,7 @@ public class HighlightJsView extends WebView implements FileUtils.Callback {
     //local variables to store language and theme
     private Language language = Language.AUTO_DETECT;
     private Theme theme = Theme.GOOGLECODE;
+    private TextWrap mTextWrap = TextWrap.NO_WRAP;
     private String content;
 	private boolean zoomSupport = false;
     private boolean showLineNumbers = false;
@@ -165,6 +166,10 @@ public class HighlightJsView extends WebView implements FileUtils.Callback {
         if(onThemeChangedListener != null) onThemeChangedListener.onThemeChanged(theme);
     }
 
+    public void setTextWrap(TextWrap textWrap) {
+        this.mTextWrap = textWrap;
+    }
+
     /**
      * Receive the {@link Language} which is currently highlighted.
      * @return The {@link Language} which is currently highlighted.
@@ -189,7 +194,7 @@ public class HighlightJsView extends WebView implements FileUtils.Callback {
         if(source != null && !(source.length() == 0)) {
             //generate and load the content
             this.content = source;
-            String page = SourceUtils.generateContent(source, theme.getName(), language.getName(), zoomSupport, showLineNumbers);
+            String page = SourceUtils.generateContent(source, theme.getName(), language.getName(), zoomSupport, showLineNumbers, mTextWrap);
             loadDataWithBaseURL("file:///android_asset/", page, "text/html", "utf-8", null);
             //notify the callback (if set)
             if (mIsHighlighting)
@@ -253,5 +258,8 @@ public class HighlightJsView extends WebView implements FileUtils.Callback {
         this.showLineNumbers = showLineNumbers;
     }
 
+    public enum TextWrap {
+        NO_WRAP, WORD_WRAP, BREAK_ALL
+    }
 
 }
