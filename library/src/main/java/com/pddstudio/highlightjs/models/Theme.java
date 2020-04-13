@@ -8,7 +8,8 @@ package com.pddstudio.highlightjs.models;
 
 public enum Theme {
     GOOGLECODE("googlecode"),
-    DOGBIN_NIGHT_THEME("dogbin");
+    DOGBIN_NIGHT_THEME("dogbin"),
+    DOGBIN_AMOLED("dogbin_amoled");
 
     private final String themeName;
 
